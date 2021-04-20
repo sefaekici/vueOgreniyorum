@@ -1,7 +1,7 @@
 # VueJS Öğreniyorum 
 
 ## Udemy Kursunda Yer Alan Konular 
-<hr>
+
 * DOM etkileşimleri
 * Koşullar ve Liste Render İşlemleri
 * Dinamik CSS ve Style İşlemleri
