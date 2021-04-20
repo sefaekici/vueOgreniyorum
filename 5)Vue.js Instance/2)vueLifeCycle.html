@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Js LifeCycle</title>
+
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{title}}</h1>
+        <button @click="setTitle()">Güncelle</button>
+        <button @click="destroy()">Destroy</button>
+    </div>
+
+
+
+    <script>
+        var app=new Vue({
+            el:"#app",
+            data:{
+                title:"VueJs Instance",
+            },
+            methods: {
+                setTitle:function(){
+                    this.title="Başlık Güncellendi";
+                },
+                //destroy işleminden sonra vue.js instance ı ile dom arasındaki bağ kopar bu nedenle destroy işleminden sonra herhangi bir eventi tekrardan vue.js tarafında kullanamayız.
+                destroy:function(){
+                    //$ parametresi ile erişilen metotlar vue.js frameworkünden gelen özel fonksiyonlardır.
+                    this.$destroy();
+                }
+
+            },
+            beforeCreate:function(){
+                console.log("Before Create");
+            },
+            created:function(){
+                console.log("Creadet");
+            },
+            beforeMount:function(){
+                console.log("Before Mount");
+            },
+            mounted:function(){
+                console.log("Mounted");
+            },
+            beforeUpdate:function(){
+                console.log("Before Update");
+            },
+            updated:function(){
+                console.log("Updated");
+            },
+            beforeDestroy:function(){
+                console.log("Before Destroy");
+            },
+            destroyed:function(){
+                console.log("Destoryed");
+            }
+
+        })
+    </script>
+</body>
+</html>

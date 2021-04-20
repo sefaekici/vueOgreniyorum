@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js Component Yapısına Giriş-1</title>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+
+    <div id="app1">
+        <my-comp></my-comp>
+        <my-comp></my-comp>
+    </div>
+
+
+    <hr>
+
+    <div id="app2">
+        <my-comp></my-comp>
+        <my-comp></my-comp>
+    </div>
+
+
+
+    <script>
+        //Global olarak Component Tanımlama 
+        Vue.component('my-comp',{
+            data() {
+                return {
+                    status:"Pasif",
+                    
+                }
+            },
+            methods: {
+                changeStatus:function(){
+                    this.status="Aktif";
+                }
+            },
+            //template yapısı sayesinde kontrol edilen elementin içeirisine bu yapı render edilir.
+            template:"<p>Sunucu Durumu: {{status}}   (<button  @click='changeStatus()'>Değiştir</button>)</p>"
+        });
+
+        var app=new Vue({
+            el:"#app1",
+        });
+
+        var app2=new Vue({
+            el:"#app2"
+        });
+
+    </script>
+</body>
+</html>

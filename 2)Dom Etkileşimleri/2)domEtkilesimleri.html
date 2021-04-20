@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom Etkileşimleri-2</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+   
+    <div id="app" >
+        
+        <!--v-on directive i event bind etmek için kullanılır. -->
+        <button v-on:click="showAlert('Merhaba Sefa')">Click</button>
+
+        <hr>
+
+       <!--aşağıda görüldüğü gibi hem fonksiyon hem de js kodu direkt olarak yazılabilir.-->
+        <button v-on:click="increaseCounter">Increase</button>
+        <button v-on:click="counter++">Increase</button>
+        <p>{{counter}}</p>
+
+        <hr>
+
+        <!--mouse move eventi mouse hareket bu elementin üzerinde hareket ettiğinde triggerlanır.-->
+        <!-- burdada dolar işareti ile birlikte kullanılan event parametrenin hangi sırada event alacağını 
+        belirtmemizi sağlar.Örneğin aşağıda 2.sıradadır fonksiyon kullanılırken de 2.sırada olmak zorundadır.
+        -->
+        <p v-on:mousemove="updateCoords(2,$event)">
+            Kordinatlar:{{x}},{{y}}
+
+            <!--
+                burada span p etiketinin altında olduğu için normal şartlar altında mouse move eventi 
+                span üzerindeyken de çalışır ancak biz çalışmasını istemediğimiz eventleri stop yardımı ile durdurabiliriz
+                burada v-on yardımı ile mousemove eventi dinlendi ve .stop işlemi ile bu element için durduruldu.
+            -->
+            <span v-on:mousemove.stop>Gizli Bölme</span>
+
+            <span>Burada mouse move çalışmaya devam edicek çünkü bu p nin  childe</span>
+        </p>
+
+
+
+        <!-- burada eventımız keyup dır sonrasında kullanılan ise event modifier olarak isimlendirilir
+        burada yapılan işlem input içerisinde enter tuşuna basıldığı zaman showAlert2 isimli fonksiyonu çalıştır 
+        demektir.
+
+        .enter işlemi > event modifier olarak isimlendirilir. keyup.shift ,keyup.O gibi şekillerde kullanılabilir.
+        v-on: işlemi > event bind olrak isimlendirilir. 
+        keyup ifadesi > bir adet eventter  keydown,input,keypress gibi halleri de vardır.
+        -->
+        <input type="text" v-on:keyup.enter="showAlert2">
+        <!--burada da hem enter a hem de space tuşuna basıldığında tetiklenir.-->
+        <input type="text" v-on:keyup.enter.space="showAlert2">
+
+
+        
+    </div>
+
+
+
+    <script>
+        var app=new Vue(
+        
+        {   
+           
+            el:"#app",
+            
+            data:{
+               counter:0,
+               x:0,
+               y:0,
+
+            },
+            methods: {
+                showAlert:function(name){
+                    alert(name);
+                },
+                increaseCounter:function(){
+                    this.counter+=1;
+                },
+
+                //clientX ve clientY değerleri mouse elementin üzerne gezdiğinde hangi kordinatlarda olduğunu verir.
+                updateCoords:function(step,e){
+                    this.counter+=step;
+                    this.x=e.clientX;
+                    this.y=e.clientY;
+                },
+                showAlert2:function(event){
+                    alert(event.target.value);
+                }
+
+
+            },
+            
+           
+        }
+        );
+        
+    </script>
+</body>
+</html>

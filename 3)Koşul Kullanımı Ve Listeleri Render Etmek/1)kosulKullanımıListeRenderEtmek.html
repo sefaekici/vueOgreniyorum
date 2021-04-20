@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom Etkileşimleri-1</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+
+    <div id="app" >
+        <!-- v-if v-else-if v-else anlatımı-->
+        <p v-if="show">Beni görebilir misin?</p>
+        <p v-else>Beni görebilir misin acaba?</p>
+        <button @click="setShow()">Göster/Gizle</button>
+        <br> <br>
+        <p v-if="number>10">Sayi 10 dan büyüktür...</p>
+        <p v-else-if="number<10">Sayi 10 dan küçüktür...</p>
+        <p v-else>Sayi 10 a eşittir.</p>
+
+
+
+        <hr>
+        <br>   <br>
+
+        <!-- v-show anlatımı-->
+
+        <!-- v-if v-else gibi ifadeler karşılığı false olduğunda o elementi tamamen siler ancak v-show sadece    
+        display özelliğini none yapar yani element domda durur ancak gösterilmez!
+        -->
+
+        <button @click="showParagh=!showParagh">Göster/Gizle</button>
+        <p v-show="showParagh">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, quam.</p>
+
+
+
+        <br> <br>
+        <hr>
+
+        <!-- v-for anlatımı -->
+
+        <!--diziye eleman ekleme işlemi-->
+        <button @click="products.push('Soba')">Ekle</button>
+        <div>
+            <ul>
+                <!--burada kullanılan key yapısı oluşturulan her li nin arka tarafta eşsiz olmasını sağlar
+                kullanılması zorunlu değildir ancak kullanılması iyi olur.
+                -->
+                <li v-for="product in products" :key="product">{{product}}</li>
+
+            </ul>
+        </div>
+
+        <br> <br>
+
+        <div>
+            <ul>
+                <!--burada v-for döngüsünde ikinci gelen parametre varsayılan olarak o değişkenin index numarasıdır.
+                istenildiği şekilde isimlendirilebilir.
+                -->
+                <li v-for="(product,index) in products">{{product}}-{{index}}</li>
+            </ul>
+        </div>
+
+
+        <!-- v-for directivesi bütün html elementleri ile kullanılır.-->
+        <div v-for="(product,index) in products" style="display: inline-block; margin: 10px;">
+            <h3>{{product}}</h3>
+            <p>{{index}}</p>
+        </div>
+
+        <br><br>
+
+        <!-- template elementi vue tarafından sağlanır ancak div gibi davranmasına karşın render edilemz 
+        bu elementi div kullanmak istemediğimiz herhangi bir durumda kullanabiliriz.
+        -->
+        <template v-for="(product,index) in products" >
+            <h3>{{product}}</h3>
+            <p>{{index}}</p>
+        </template>
+
+
+        <!--##########################################################################################################-->
+
+       
+        <br> <br>
+
+        <!-- v-for ile object verilerini döndürmek -->
+        <div>
+            <ul>
+                <li v-for="person in persons">{{person.name}} {{person.email}}</li>
+            </ul>
+        </div>
+
+        <br> <br>
+
+        <div>
+
+            <ul>
+                <li v-for="person in persons">
+                    <ul>
+                        <li v-for="(value,key,index) in person">
+                            <strong>{{key}}:</strong>{{value}}-{{index}}
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+
+
+
+        <!-- belirli sayıda yani sınırları belli olan örneğin 
+        aşağıdaki gibi 1 den 5 e kadar dönen döngü
+        -->
+        <span v-for="i in 5">{{i}}</span>
+
+
+
+
+
+    </div>
+
+    <script>
+        var app=new Vue(
+        
+        {   
+            el:"#app",
+            data:{
+                show:false,
+                number:7,
+                showParagh:false,
+                persons:[
+                    {name:"Sefa Ekici",email:"ssefaekici@gmail.com"},
+                    {name:"Aleyna Dikal",email:"aleyynadikal@gmail.com"},
+                    {name:"Ferasettin Yanbatmaz",email:"ferasettin@gmail.com"},
+                    {name:"İflasettin Tokmaz",email:"ifo@gmail.com"}
+                ],
+                products:["Monitör","Klavye","Mouse","Askı","Masa"],
+            },
+            methods: {
+                setShow: function () {
+                    this.show = !this.show;
+                },    
+            },
+            
+        }
+        );
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom Etkileşimleri-3</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+   
+    <!--app 1 js kodlarının html üzerinde kullanılması-->
+    <div id="app" >
+        
+        <p>{{counter}}</p>
+        <button v-on:click="increaseCounter(1)">Arttır</button>
+        <button v-on:click="increaseCounter(2)">İki arttır</button>
+        
+        <!-- 
+            html template içerisinde yazılıcak olan js kodu en fazla tek satırlık olmalıdır Yani sadece
+            1 ifadeyi destekler burada ternany if bi ifadedir aynı kod if else ile yapılamaya çalışılsa desteklemez.
+        -->
+        <p>{{counter>10? "Counter 10 dan büyüktür":"Counter 10 dan küçüktür"}}</p>
+
+        <!--görüldüğü üzere tek satırlık bir js kodu yazılabildi-->
+        <p> Counter*5:{{counter*5}}</p>
+
+
+        <hr>
+
+        <!--
+            v-model yardımıyla input name değişkenine bağlanmıştır bu nedenle inputta olan değişikliklerden
+            name değişkeni etkilenir.
+        -->
+        <input type="text" v-model="name">
+        
+        <p>{{name}}</p>
+        <!--yukarıda yapılan v-model directivenin yaptığı  değişiklikten v-once dolayısı ile etkilenmez-->
+        <p v-once >{{name}}</p>
+
+    </div>
+
+
+    <hr>
+
+
+
+    <!-- app2 computed propytiler-->
+    <div id="app2">
+
+
+        <!--Burda aslında computed proprtyler ile methodlar arasındaki fark bariz bir şekilde gözükmektedir
+        computed propytler çalışma esnasında method gibi işlem yaparlar ancak çağırılırken değişken yani datalar gibi
+        çağırılırlar.Bir diğer fark ise ve en önemlisi compudet propytiler içerisinde bulunan yani üzerinde işlem yapılan
+        değişkenlere bir etki olduğunda çalışırken,normal metotlar dom üzerinde herhangi bir değişiklik olduğuında çalışırlar 
+        yani domda örneğin title diye bir değşken olsun o değişkenin değişmesi içerisinde kullanılmayan fonksiyonları bile tekrardan
+        çalışitırır ancak computed propytiler bu esnada çalışmaz bu da bize ciddi anlamda performans kazançları sağlar.
+        -->
+
+
+        <h1>{{counter}}</h1>
+        <button v-on:click="increaseCounter">Counter Arttır</button>
+        <p>{{checkCounter()}}</p>
+
+        <br>
+
+        <h2>{{secondCounter}}</h2>
+        <button v-on:click="secondCounter++">İkinci Counter Arttır</button>
+        <p>{{checkCounterComputed}}</p>
+
+    </div>
+
+    <br>
+
+
+
+    <!--app3 watch kavramı-->
+    <div id="app3">
+
+        <!--computedlar senkron çalışan yapılardır.Ve genelde farklı değişkenlerin etkilediği durumlar için kullanılırlar
+        watch ise computeda altarnatif olmasına rağmen çalışma prensibi çok farklıdır.watch yapısı asenkron bir yapıdır.
+        Bu nedenle genellikle db işlemlerinde kullanılır.
+        -->
+        <h1>{{counter}}</h1>
+        <button v-on:click="setCounter">Arttır</button>
+
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div id="app4">
+
+        <!--burda @ işareti event bind ederken kullanılır v-on yerine kullanılır.
+        buradaki : işareti ise attiribute bind ederken v-bind yerine kullanılır.
+        -->
+        <button @click="changeLink">Linki Değiştir</button>
+        <a :href="link">Link</a>
+
+
+        <br>
+
+        <!--
+            uzun kullanımları
+        -->
+
+
+        <button v-on:click="changeLink">Linki Değiştir</button>
+        <a v-bind:href="link">Link</a>
+
+
+    </div>
+
+
+
+
+
+
+
+    <script>
+        var app=new Vue(
+        
+        {   
+           
+            el:"#app",
+
+            data: {
+                counter:0,
+                name:"Sefa",
+
+
+            },
+            methods: {
+                increaseCounter:function(step){
+                    this.counter+=step;
+                },
+                
+            },
+            
+          
+           
+        }
+
+        );
+
+
+
+        var app2=new Vue({
+            el:"#app2",
+            data:{
+                counter:0,
+                secondCounter:0,
+
+            },
+            methods:{
+                increaseCounter:function(){
+                    this.counter+=1;
+                },
+                checkCounter: function () {
+                    console.log("Check Counter Çalıştı...");
+                    if(this.counter<10){
+                        return "Counter 10 dan küçüktür";
+                    }
+                    else if(this.counter==10){
+                        return "Counter 10 a eşittir";
+                    }
+                    else{
+                        return "Counter 10 dan büyüktür"
+                    }
+                }
+
+            },
+            computed:{
+                 checkCounterComputed: function () {
+                    console.log("Check Counter Computed Çalıştı...");
+                    if (this.secondCounter < 10) {
+                        return "Counter 10 dan küçüktür";
+                    }
+                    else if (this.secondCounter == 10) {
+                        return "Counter 10 a eşittir";
+                    }
+                    else {
+                        return "Counter 10 dan büyüktür"
+                    }
+                }
+            },
+        });
+
+
+
+        var app3=new Vue({
+            el:"#app3",
+            data:{
+                counter:0,
+
+            },
+            methods:{
+                setCounter:function(){
+                    this.counter+=1;
+                }
+            },
+            computed:{
+
+            },
+            //data içerisinde yer alan değişkenlerin değerlerinin izlenmesi için kullanılır.
+            watch: {
+                //data da yer alan değişken ile aynı isimde olmalıdır.
+                counter: function (value) {
+                    /*bu işlemin yapılmasının sebebi aşağıdaki set timeout fonksiyonunda this anahtar kelimesi 
+                    fonksiyonun scobunu gösterir biz burada vm içerisine thisi atayarak scope u almış oluruz 
+                    ve bu sayede değişkene erişebiliriz.
+                    */
+
+                    var vm = this;
+                    setTimeout(function () {
+                        vm.counter = 0;
+                    }, 1500);
+
+                }
+
+            }
+        }); 
+
+
+        var app4=new Vue({
+            el:"#app4",
+
+            data:{
+                link:"https://www.google.com.tr",
+            },
+            methods:{
+                changeLink:function(){
+                    if(this.link==="https://www.google.com.tr"){
+                        this.link="https://sefaekici.github.io/";
+                    }
+                    else{
+                        this.link="https://www.google.com.tr";
+                    }
+                }
+            }
+        })
+
+
+        //Burada kullanılan computed ve watch alanları reactivite sağlar.
+        
+    </script>
+</body>
+</html>

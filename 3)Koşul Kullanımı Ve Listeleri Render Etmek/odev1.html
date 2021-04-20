@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odev</title>
+
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    
+</head>
+<body>
+
+    <div id="app">
+        <!--Soru 1-->
+        <div>
+            <button @click="setToggleState()">Toggle</button>
+            <p v-if="toggle">Beni Görebiliyor musun?</p>
+            <p v-if="!toggle">Ya da beni görebiliyor musun?</p>
+            <p v-show="toggle">Beni Görebiliyor musun?</p>
+            <p  v-show="!toggle">Ya da beni görebiliyor musun?</p>
+        </div>
+
+        <!--Soru 2-->
+        <div>
+            <ul>
+                <li v-for="(element,index) in list">{{element}}- {{index}}</li>
+            </ul>
+        </div>
+
+
+        <!--Soru 3-->
+        <div>
+            <ul>
+              
+
+                    <li v-for="(value,key,index) in customObject">
+                      <strong>{{key}}</strong> {{value}} - {{index}}
+                    </li>
+
+              
+            </ul>
+        </div>
+
+
+        <!--Soru4-->
+        <div>
+
+            <ul>
+                <li v-for="(value,key) in object">
+                    {{value}}
+
+                    <ul v-if="key=='data'">
+                        <li v-for="val in value">
+                            {{val}}
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+    <script>
+        var app=new Vue({
+            el:"#app",
+            data:{
+                toggle:false,
+                list:["Sefa Ekici","Gökhan Kandemir","El Jurdisepis","Hakan Taşıyan"],
+                customObject: { title: 'Game of Thrones', author: 'George R.R', books: '7' },
+                object: { name: 'NesnedLoop', id: 19, data: [4.3, 2.67, 10.42, 1402] },
+            },
+            methods:{
+                setToggleState:function(){
+                    this.toggle=!this.toggle;
+                },
+            }
+        });
+    </script>
+    
+</body>
+</html>

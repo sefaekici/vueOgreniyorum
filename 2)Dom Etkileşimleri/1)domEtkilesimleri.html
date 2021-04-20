@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom Etkileşimleri-1</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <!--VUE JS SANAL DOM ÜZERİNDE ÇALIŞIR-->
+
+    <!--bir adet parent container gereklidir bu container altındaki elemanlar vue.js instance ile erişilebilir.-->
+    <!--bu html yapısına vue template adı verilir.-->
+    <div id="app" >
+        <h2>{{getTitle()}}</h2>
+        
+        <hr>
+
+        <!-- v-once directive i elementin sadece program başladığı anda render edilmesini sağlar sonradan yapılan değişikliklerden etkilenmez.
+        Kendinden sonra oluşan elemanlardaki tetiklenmeler onu etkilemez.Ancak fonksiyon bu elemandan önce çağırılmış olsaydı etkilenirdi.
+        Bunun nedeni ise v-once ın ilk renderdan sonra değişenleri yok saymasıdır fonksiyon öncesinde çağırılmış olsaydı renderdan önce değişmiş
+        olacağı için v-once etkisiz kalırdı.
+        -->
+        <p v-once>Değişmeyen Title:{{title}}</p>
+
+      
+
+        <!--functionlar html de kullanılırken parantez kullanılmalıdır.Kullanılmadığı takdirde hatalı kullanım olur. -->
+        <!-- v-bind işlemi attiributeyi vue.js e bağlar(bind eder) bu sayede link değişkeni direkt olarak burada kullanılabilir -->
+        <!-- burada kullanılan v-bind bir directive dir. -->
+        <p>{{hello()}} <a v-bind:href="link" target="_blank">Link!</a></p>
+        
+        
+        <!--burada v-once kullanılmadığı için fonksiyonun yaptığı değişiklik burada etki eder. -->
+        <p>{{changeTitle()}}</p>
+        <p>Fonsiyon Tetikendikten Sonra Değişen Title:{{title}}</p>
+      
+        
+        <hr>
+
+        <h3>{{getMessage()}}</h3>
+
+        <hr>
+
+
+        <!-- v-html= directive i sayesinde değişken olarak oluşturulan html etiketleri kullanılabilir ancak kullanıldığı takdirde
+        aşağıdaki örnekte olduğu gibi p etiketi içerisinde yer alan Merhaba yazısını yok sayar.
+        -->
+        <p v-html="htmlCode">Merhaba</p>
+
+        
+        
+    </div>
+
+    <script>
+        var app=new Vue(
+        
+        {   
+            //kontrol edilecek elemanı seçmek için el kullanılır css seçicileri ile aynı çalışır 
+            el:"#app",
+            //dataları tutan js objesi
+            data:{
+                title:"Merhaba Video Sınıf",
+                name:"Sefa",
+                message:"Merhabalar,",
+                link:"https://www.google.com/",
+                htmlCode:"<a href='https://www.google.com.tr'>Link</a>"
+            },
+            methods: {
+                hello:function(){
+                    return "Merhabalar Sefa Ekici";
+                },
+                getTitle:function(){
+                    //vue instance içindeki alanlara erişmek için this anahtar kelimesi gereklidir.
+                    return this.title;
+                },
+                getMessage:function(){
+                    return this.message+this.name;
+                },
+                changeTitle:function(){
+                    this.title="Merhabalar ben değişen title'ım";
+                    return this.title;
+                }
+            },
+           
+        }
+        );
+        
+    </script>
+</body>
+</html>

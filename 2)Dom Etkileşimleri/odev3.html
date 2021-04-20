@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odev3</title>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+
+    <div id="exercise">
+        <div>
+            <p>Şuanki Değer: {{ value }}</p>
+            <button @click="value+=5">Add 5</button>
+            <button @click="value+=1">Add 1</button>
+            <p>{{ result }}</p>
+        </div>
+
+
+        <div>
+            <div>
+                <input type="text" v-model="value">
+                <p>{{ value }}</p>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+       new Vue({
+           el:"#exercise",
+
+           data:{
+              value:0,
+
+
+           },
+           methods: {
+             
+           },
+           computed:{
+                result:function(){
+                    return this.value==33 ? "Tamamlandı":"Henüz Bitmedi!!";
+                }
+           },
+           watch:{
+                result:function(){
+                    var vm=this;
+                    setTimeout(function(){
+                        vm.value=0;
+                    },5000);
+                }
+           },
+
+       });
+    </script>
+    
+</body>
+</html>

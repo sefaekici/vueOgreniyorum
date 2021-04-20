@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odev 5</title>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+
+    <style>
+
+        .box{
+            width: 100px;
+            height: 100px;
+            background-color: gray;
+        }
+        .box2{
+            background-color: aqua  !important;
+        }
+        
+        .progresBar{
+            background-color: green;
+            height: 20px;
+            width: 0px;
+        }
+
+    </style>
+    
+</head>
+<body>
+
+    <div id="app">
+
+        <div>
+            <button @click="addClass()">Add Class</button>
+            <div :class="getClass"></div>
+        </div>
+    
+        
+
+        <div>
+            <div :class="inputClass"></div>
+            <input type="text" v-model="inputClass">
+        </div>
+
+
+        <div>
+            <div class="progresBar" :style="{width:widthProgress+'px'}"></div>
+            <button @click="startProgress">Progres Başlat</button>
+        </div>
+
+
+
+
+
+    </div>
+
+
+
+    <script>
+
+        var app=new Vue({
+            el:"#app",
+            data:{
+                 classStatus: false,
+                 inputClass:"",
+                 widthProgress:0,
+            },
+            methods: {
+                addClass: function () {
+                    if (this.classStatus == false) {
+                        this.classStatus = true;
+                    }
+                    else {
+                        this.classStatus = false;
+                    }
+                },
+                startProgress:function(){
+                    var vm=this;
+                    var id=setInterval(function(){
+                        vm.widthProgress+=10;
+                       if(vm.widthProgress==100){
+                           clearInterval(id);
+                           vm.widthProgress=0;
+                       }
+                    },1000);
+
+                    
+                }
+            },
+            computed:{
+                getClass:function(){
+                    return {box:this.classStatus}
+                }
+            }
+            
+
+        });
+
+    </script>
+    
+</body>
+</html>

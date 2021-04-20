@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Instance</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <style>
+        .blue{
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    
+
+    <div id="app1">
+        <h1>{{title}}</h1>
+        <!--ref ataması yapıldı.-->
+        <button @click="showParagraph" ref="myButton">Göster/Yoket</button>
+        <p v-if="paragraphState">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, error?</p>
+        <input type="text" @keydown.enter="setTitle($event)">
+        <hello></hello>
+        <hello></hello>
+    </div>
+
+    <div id="app2">
+        <h1>{{title}}</h1>
+        <input type="text" @keyup.enter="setTitle($event)">
+    </div>
+
+
+
+    <div id="app3"></div>
+
+    
+
+    <script>
+
+        //Component Oluşturma İşlemi İstenildiği Kadar Kullanılabilir.Reusiblty sağlar.Kod tekrarını önler.
+         Vue.component('hello', {
+                template: "<h1>Merhabalar Ben Componentim</h1>",
+
+         });
+
+        var app1=new Vue({
+            el:"#app1",
+            data:{
+                title:"Merhaba Vue.js",
+                paragraphState:false,
+            },
+            methods: {
+                showParagraph:function(){
+                    this.paragraphState=!this.paragraphState;
+                    //$refs  ile atanan referanslar yardımı ile html elemenlarına da erişebiliriz.
+                    this.$refs.myButton.innerText = "Ref Tarafından Güncellendi...";
+                    //ref yardımı ile elemente class ekleme işlemi.
+                    this.$refs.myButton.classList.add("blue");
+                },
+                setTitle:function(event){
+                    this.title=event.target.value;
+                },
+
+            },
+            watch:{
+                title:function(){
+                    alert("Title Değişti");
+                }
+            }
+    
+        });
+
+        var app2=new Vue({
+            el:"#app2",
+            data:{
+                title:"Merhabalar İkinci Vue.js",
+            },
+            methods:{
+                setTitle:function(event){
+                    //Burada görüldüğü gibi app1 e ait instance a verdiğimiz değişken değeri ile app2 den app1 e erişilebilir.
+                    app1.title=event.target.value;
+                }
+            }
+
+        });
+
+        
+        var app3=new Vue({
+            template:'<h1>Merhbalar Ben Template İle Oluşturuldum....</h1>',
+        });
+
+        /*Template propertysi yardımı ile yukarıdaki şekilde dışarıdan çekilen bir yapı $mount() metodu yardımı ile 
+        istenilen containerın içerisine eklenebilir.Aşağıda id si app3 olan containera eklenmiştir.
+        */
+        app3.$mount("#app3");
+
+       
+
+
+        // setTimeout(function(){
+        //     app1.title="Set Timeout İle Değişti";
+        // },5000);
+    </script>
+</body>
+</html>

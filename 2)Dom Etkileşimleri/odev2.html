@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odev2</title>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <h1 v-once>{{title}}</h1>
+        <p v-html="htmlCodes"></p>
+
+
+        <p>{{counter}}</p>
+        <button v-on:click="increaseCounter">Increase Counter</button>
+        <button v-on:click="counter+=2">Increase Double Counter</button>
+
+        <h1>{{title}}</h1>
+        <button v-on:click="setTitle">SET TİTLE</button>
+
+        <a v-bind:href="link">VUE INSTANCE DAN GELEN LİNK</a>
+        
+        <br>
+        <hr>
+        <br>
+
+
+        <span>Space Ve Entera Basınca Alert Gösterir:</span>
+        <input type="text" v-on:keyup.enter.space="showAlert">
+        
+
+
+        <p v-on:mousemove="setCoords($event,2)">
+            Kordinatlar:{{x}},{{y}}
+            <span v-on:mousemove.stop>Tetiklemeyen Bölüm</span>
+        </p>
+
+
+
+    </div>
+
+
+    <script>
+       var app=new Vue({
+           el:"#app",
+
+           data:{
+               title:"Merhabalar Ödev 2",
+               counter:0,
+               htmlCodes:"<a href='https://www.google.com'>Link</a>",
+               link:"https://www.google.com.tr",
+               x:0,
+               y:0,
+
+           },
+           methods: {
+               increaseCounter:function(){
+                   this.counter+=1;
+               },
+               setTitle:function(){
+                    this.title="Değişen Title";
+               },
+               showAlert:function(e){
+                   alert(e.target.value);
+               },
+               setCoords:function(e,step){
+                    this.counter+=step;
+                    this.x=e.clientX;
+                    this.y=e.clientY;
+                    
+               }
+           },
+       });
+    </script>
+    
+</body>
+</html>

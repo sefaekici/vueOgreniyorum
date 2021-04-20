@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom Etkileşimleri-5</title>
+
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+            background-color: gray;
+            margin-right: 5px;
+        }
+
+        .green{
+            background-color: green;
+        }
+
+        .blue{
+            background-color: blue;
+        }
+      
+    </style>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="box" :style="getColor"></div>
+        <div class="box" :style="getWitdh"></div>
+        <div class="box" :style="getHeight"></div>
+        <div class="box" :style="[getHeight,{width:getHeight}]"></div>
+        <hr>
+        <input type="text" v-model="color">
+        <input type="text" v-model="height">
+        <input type="text" v-model="width">
+    </div>
+
+
+
+
+
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                color: "green",
+                height:"100px",
+                width:"100px",
+            },
+            computed: {
+                getColor:function(){
+                    return(
+                        { backgroundColor: this.color }
+                    )
+                },
+                getHeight:function(){
+                    return({
+                        height:this.height
+                    })
+                },
+                getWitdh:function(){
+                    return(
+                        {width:this.width}
+                    )
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
